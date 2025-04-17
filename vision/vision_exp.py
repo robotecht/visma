@@ -3,33 +3,51 @@ import numpy as np
 import cv2
 import cv2.aruco as aruco
 
-def main():
-    # Setup RealSense pipeline
+def get_realsense_pipeline():
+    """Try to start RealSense pipeline. Returns None if no device is found."""
+    ctx = rs.context()
+    if len(ctx.devices) == 0:
+        print("⚠️  No Intel RealSense device found. Falling back to webcam.")
+        return None, None
+
     pipeline = rs.pipeline()
     config = rs.config()
     config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
-
-    # Start streaming
     pipeline.start(config)
+    return pipeline, None  # no `VideoCapture` used
 
-    # Load ArUco dictionary
+def main():
+    pipeline, cap = get_realsense_pipeline()
+
+    # If no RealSense, use default camera
+    if pipeline is None:
+        cap = cv2.VideoCapture(0)
+        if not cap.isOpened():
+            print("❌ Error: Could not open any camera.")
+            return
+
+    # Load ArUco dictionary and parameters
     aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_7X7_1000)
     parameters = aruco.DetectorParameters()
 
-    print("📸 RealSense camera started. Press 'q' to exit.")
+    print("📸 Camera started. Press 'q' to exit.")
 
     try:
         while True:
-            # Wait for a frame
-            frames = pipeline.wait_for_frames()
-            color_frame = frames.get_color_frame()
-            if not color_frame:
-                continue
+            # Get frame from RealSense or fallback camera
+            if pipeline:
+                frames = pipeline.wait_for_frames()
+                color_frame = frames.get_color_frame()
+                if not color_frame:
+                    continue
+                frame = np.asanyarray(color_frame.get_data())
+            else:
+                ret, frame = cap.read()
+                if not ret:
+                    print("❌ Error: Failed to capture frame from webcam.")
+                    break
 
-            # Convert RealSense frame to numpy image
-            frame = np.asanyarray(color_frame.get_data())
-
-            # Convert to grayscale for detection
+            # Convert to grayscale
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
             # Detect ArUco markers
@@ -44,18 +62,19 @@ def main():
                     cv2.putText(frame, f"ID: {ids[i][0]}", top_left,
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
 
-            # Show the result
-            cv2.imshow("RealSense ArUco Detection", frame)
+            # Display the result
+            cv2.imshow("ArUco Detection", frame)
 
-            # Exit on 'q'
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
     finally:
-        # Stop streaming
-        pipeline.stop()
+        if pipeline:
+            pipeline.stop()
+        if cap:
+            cap.release()
         cv2.destroyAllWindows()
-        print("🔒 RealSense stopped.")
+        print("🔒 Camera stopped.")
 
 if __name__ == "__main__":
     main()
