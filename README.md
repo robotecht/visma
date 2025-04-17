@@ -17,6 +17,6 @@ source cam-env/bin/activate
 deactivate
 ```
 
-# Realsense Camera Detetion using Aruco Markers
+# Realsense Camera Detetion using Aruco Markers 
 
 ![alt text](image.png)
