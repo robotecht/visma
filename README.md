@@ -16,3 +16,7 @@ source cam-env/bin/activate
 ```bash
 deactivate
 ```
+
+# Realsense Camera Detetion using Aruco Markers
+
+![alt text](image.png)
