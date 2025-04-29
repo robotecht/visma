@@ -28,7 +28,8 @@ def main():
 
     # Load ArUco dictionary and parameters
     aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_7X7_1000)
-    parameters = aruco.DetectorParameters()
+    # parameters = aruco.DetectorParameters()
+    parameters = aruco.DetectorParameters_create()
 
     print("📸 Camera started. Press 'q' to exit.")
 
