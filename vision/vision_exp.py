@@ -63,7 +63,7 @@ def main():
                     cv2.putText(frame, f"ID: {ids[i][0]}", top_left,
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
 
-            # Display the result
+            # Display the results
             cv2.imshow("ArUco Detection", frame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
