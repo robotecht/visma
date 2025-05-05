@@ -1,4 +1,4 @@
-# visma
+# visuomotorgrasp - Project in Progress
 Vision based manipulation - Experimental Repo
 
 # Start ubuntu terminal
@@ -20,3 +20,12 @@ deactivate
 # Realsense Camera Detetion using Aruco Markers 
 
 ![alt text](image.png)
+
+
+# Nvidia Isaac Sim Commands
+Run  the following commands
+```bash
+cd ~/isaacsim
+./post_install.sh
+./isaac-sim.selector.sh
+```
