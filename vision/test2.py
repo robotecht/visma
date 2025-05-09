@@ -14,6 +14,7 @@ def main():
     # Start streaming
     pipeline.start(config)
 
+
     # Get intrinsics once
     profile = pipeline.get_active_profile()
     intr = profile.get_stream(rs.stream.color).as_video_stream_profile().get_intrinsics()
