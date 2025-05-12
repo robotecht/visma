@@ -1,6 +1,13 @@
 # visma
 Vision based manipulation - Experimental Repo
 
+# Install pyrealsense2
+To access 
+
+```bash
+pip install pyrealsense2
+```
+
 # Start ubuntu terminal
 ```bash
 wsl.exe -d Ubuntu
