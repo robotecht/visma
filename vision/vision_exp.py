@@ -28,7 +28,8 @@ def main():
 
     # Load ArUco dictionary and parameters
     aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_7X7_1000)
-    parameters = aruco.DetectorParameters()
+    # parameters = aruco.DetectorParameters()
+    parameters = aruco.DetectorParameters_create()
 
     print("📸 Camera started. Press 'q' to exit.")
 
@@ -62,7 +63,7 @@ def main():
                     cv2.putText(frame, f"ID: {ids[i][0]}", top_left,
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
 
-            # Display the result
+            # Display the results
             cv2.imshow("ArUco Detection", frame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
