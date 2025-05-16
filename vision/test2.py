@@ -65,7 +65,7 @@ def main():
                     print(f"Translation (x, y, z) [meters]: {tvec}")
                     print(f"Quaternion (x, y, z, w): {quat}")
 
-            cv2.imshow('RealSense ArUco Detection', color_image)
+            cv2.imshow('RealSense ArUco Detection Image', color_image)
             if cv2.waitKey(1) & 0xFF == 27:  # ESC
                 break
 
